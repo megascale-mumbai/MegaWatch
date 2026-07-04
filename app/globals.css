@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f8f8;
+  --foreground: #111111;
+  --accent: #b8860b;
+  --accent-secondary: #966d09;
+  --card-bg: #ffffff;
+  --card-border: rgba(0, 0, 0, 0.05);
+  --metal: #666666;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-accent: var(--accent);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-metal: var(--metal);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), sans-serif;
+  --max-w-7xl: 1420px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom slim luxury scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-poppins), sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-bold,
+.font-extrabold,
+.font-black {
+  font-weight: 600 !important;
+}
+
+@layer utilities {
+  .luxury-text {
+    background: linear-gradient(135deg, #b8860b 0%, #d4af37 50%, #966d09 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .glass-dark {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .animate-reveal {
+    animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.animate-progress {
+  animation: progress 5s linear infinite;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+@keyframes spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 10s linear infinite;
+}
+
+.watch-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dial {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.hand-wrapper {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  will-change: transform;
+}
+
+.center-cap {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  z-index: 60;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* Scoped overrides for product page on laptop screens only */
+@media (min-width: 1024px) and (max-width: 1440px) {
+  .product-page-root {
+    /* Reduce top padding */
+    .pt-28 {
+      padding-top: 5rem !important; /* pt-20 */
+    }
+    .md\:pt-36 {
+      padding-top: 6rem !important; /* pt-24 */
+    }
+    
+    /* Make container slightly narrower or smaller max-width */
+    .container {
+      max-width: 1120px !important;
+      padding-left: 1.5rem !important;
+      padding-right: 1.5rem !important;
+    }
+    
+    /* Reduce grid gaps */
+    .gap-10 {
+      gap: 1.75rem !important;
+    }
+    .xl\:gap-16 {
+      gap: 2.25rem !important;
+    }
+    .gap-6 {
+      gap: 1rem !important;
+    }
+    
+    /* Margin reductions */
+    .mb-8 {
+      margin-bottom: 1.5rem !important;
+    }
+    .mb-10 {
+      margin-bottom: 1.75rem !important;
+    }
+    .mb-12 {
+      margin-bottom: 2rem !important;
+    }
+    .mt-20 {
+      margin-top: 4rem !important;
+    }
+    
+    /* Padding reductions */
+    .py-20 {
+      padding-top: 4rem !important;
+      padding-bottom: 4rem !important;
+    }
+    
+    /* Font size scaling */
+    h1.text-xl, h1.md\:text-2xl, h1.lg\:text-2xl {
+      font-size: 1.25rem !important; /* text-xl */
+      margin-bottom: 0.5rem !important;
+    }
+    
+    .text-2xl, .sm\:text-3xl {
+      font-size: 1.5rem !important; /* text-2xl */
+    }
+    
+    .text-lg, .sm\:text-xl {
+      font-size: 1.125rem !important; /* text-lg */
+    }
+    
+    p.text-stone-500.text-sm.md\:text-base {
+      font-size: 0.8125rem !important;
+      line-height: 1.5 !important;
+      margin-bottom: 1.75rem !important;
+    }
+    
+    /* Accordion buttons & items padding */
+    .py-6 {
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+    }
+    
+    /* Specs items spacing */
+    .gap-y-6 {
+      gap-y: 1rem !important;
+    }
+    .gap-y-8 {
+      gap-y: 1rem !important;
+    }
+    .pb-4 {
+      padding-bottom: 0.75rem !important;
+    }
+    
+    /* Quantity select / Actions button */
+    .space-y-10 > * + * {
+      margin-top: 1.5rem !important;
+    }
+    .space-y-10 {
+      margin-bottom: 2rem !important;
+    }
+    
+    /* Related Products section padding */
+    section.py-24 {
+      padding-top: 3.5rem !important;
+      padding-bottom: 3.5rem !important;
+    }
+  }
+}
+
+/* General product page spacing overrides for all screen sizes to keep layout clean and consistent */
+.product-page-root {
+  /* Reduce top margin and padding on sections */
+  .mt-20 {
+    margin-top: 3.5rem !important;
+  }
+  .py-20 {
+    padding-top: 4rem !important;
+    padding-bottom: 4rem !important;
+  }
+  
+  /* Reduce features banner internal vertical padding */
+  .py-12 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  /* Reduce Related Products section vertical padding */
+  section.py-24 {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+}
+
+/* Reduce root font size on small laptop screens to scale down all website text proportionally */
+@media (min-width: 1024px) and (max-width: 1366px) {
+  html {
+    font-size: 14px !important;
+  }
+}
