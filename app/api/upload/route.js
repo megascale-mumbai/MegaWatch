@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { put } from "@vercel/blob";
 
 export async function POST(request) {
   try {
@@ -37,8 +38,19 @@ export async function POST(request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const base64 = buffer.toString("base64");
-    const url = `data:${file.type};base64,${base64}`;
+    const safeName = (file.name || "upload").replace(/[^a-zA-Z0-9._-]/g, "_");
+    const filename = `${Date.now()}-${safeName}`;
+
+    let url;
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      const blob = await put(filename, buffer, {
+        access: "public",
+        contentType: file.type || "application/octet-stream",
+      });
+      url = blob.url;
+    } else {
+      url = `data:${file.type};base64,${buffer.toString("base64")}`;
+    }
 
     return NextResponse.json({ success: true, url }, { status: 200 });
   } catch (err) {
