@@ -678,16 +678,38 @@ export default function WatchEditor() {
     setIsSaved(false);
   };
 
+  const sanitizePayload = (value) => {
+    if (typeof value === "string") {
+      return value.startsWith("data:") ? "" : value;
+    }
+
+    if (Array.isArray(value)) {
+      return value.map(sanitizePayload);
+    }
+
+    if (value && typeof value === "object") {
+      const cleaned = {};
+      for (const [key, entry] of Object.entries(value)) {
+        if (typeof entry === "string" && entry.startsWith("data:")) continue;
+        cleaned[key] = sanitizePayload(entry);
+      }
+      return cleaned;
+    }
+
+    return value;
+  };
+
   const handleSave = async () => {
     setIsSyncing(true);
     try {
       const method = backendId ? "PUT" : "POST";
       const url = backendId ? `/api/watches/${backendId}` : "/api/watches";
+      const payload = sanitizePayload({ ...config, name: selectedWatchId });
 
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...config, name: selectedWatchId }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {

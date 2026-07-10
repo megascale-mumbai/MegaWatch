@@ -49,7 +49,14 @@ export async function POST(request) {
       });
       url = blob.url;
     } else {
-      url = `data:${file.type};base64,${buffer.toString("base64")}`;
+      return NextResponse.json(
+        {
+          success: false,
+          error:
+            "Image storage is not configured on Vercel. Add BLOB_READ_WRITE_TOKEN to enable uploads.",
+        },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ success: true, url }, { status: 200 });
